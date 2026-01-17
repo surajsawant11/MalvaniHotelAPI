@@ -8,11 +8,13 @@ public class LoginResponseDTO {
     private String email;
     private String role;
     private String token;
+    private String name;
 
-    public LoginResponseDTO(String message, String email, String role, String token) {
+    public LoginResponseDTO(String message, String email, String role,String name, String token) {
         this.message = message;
         this.email = email;
         this.role = role;
+        this.name = name;
         this.token = token;
     }
 
@@ -30,6 +32,10 @@ public class LoginResponseDTO {
 
     public String getToken() {
         return token;
+    }
+
+    public String getName() {
+        return name;
     }
 }
 

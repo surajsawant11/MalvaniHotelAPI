@@ -1,4 +1,4 @@
-package com.mavani.hotelApi.common;
+package com.mavani.hotelApi.common.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mavani.hotelApi.model.UserModel;

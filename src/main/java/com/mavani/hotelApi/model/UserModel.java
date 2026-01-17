@@ -1,10 +1,13 @@
 package com.mavani.hotelApi.model;
 
-import com.mavani.hotelApi.common.BaseModel;
+import com.mavani.hotelApi.common.model.BaseModel;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "t_user")
+@Table(name = "t_user",uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email"),
+        @UniqueConstraint(columnNames = "phone")
+})
 public class UserModel extends BaseModel {
 
 

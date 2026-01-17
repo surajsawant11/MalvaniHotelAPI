@@ -28,25 +28,29 @@ public class AuthController {
     JwtService jwtService;
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequestDTO request) {
-        Map<String, Object> data = new HashMap<>();
-        String token = jwtService.generateToken(request.getEmail());
-        data.put("email", request.getEmail());
-        data.put("role", "USER");
-        data.put("token", token);
-
-        return ResponseEntity.status(200).body(data);
-
+    public ResponseEntity<Map<String,Object>> login(@RequestBody LoginRequestDTO request) {
+        LoginResponseDTO response = authService.login(request);
+        return ResponseEntity.ok(Map.of("result",response));
     }
+
 
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, Object>> register(@RequestBody RegisterRequestDTO requestDTO) {
-        RegisterResponseDTO responseDTO =  authService.saveUser(requestDTO);
+    public ResponseEntity<?> register(@RequestBody RegisterRequestDTO requestDTO) {
+
         Map<String, Object> data = new HashMap<>();
-        data.put("Result", responseDTO);
-        return ResponseEntity.status(201).body(data);
+
+        try {
+            RegisterResponseDTO responseDTO = authService.saveUser(requestDTO);
+            data.put("result", responseDTO);
+            return ResponseEntity.status(201).body(data);
+
+        } catch (RuntimeException ex) {
+            data.put("message", ex.getMessage());
+            return ResponseEntity.status(400).body(data); // ✅ return data not ex
+        }
     }
+
 
 
 }

@@ -13,4 +13,6 @@ public interface MenuService {
     String deleteById(Long menuId);
 
     MenuResponseDTO findById(Long menuId);
+
+    MenuResponseDTO update(MenuRequestDTO menuRequestDTO, Long menuId);
 }

@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 public class MenuServiceImpl implements MenuService {
 
-    private MenuRepository menuRepository;
+    private final MenuRepository menuRepository;
     public MenuServiceImpl(MenuRepository menuRepository){
         this.menuRepository = menuRepository;
     }
@@ -45,7 +45,9 @@ public class MenuServiceImpl implements MenuService {
 
 
 //        MenuResponseDTO menuResponseDTO =
-        return new MenuResponseDTO(menu.getId(),menu.getName(), menu.getCategory(), menu.getDescription(), menu.getPrice(), menu.getStatus(),"");
+        return new MenuResponseDTO(menu.getId(),menu.getName(),menu.getDescription(),
+                menu.getCategory(),menu.getPrice(), menu.getStatus(),"");
+
     }
 
     @Override
@@ -65,5 +67,21 @@ public class MenuServiceImpl implements MenuService {
         }
 
         return responseDTO;
+    }
+
+    @Override
+    public MenuResponseDTO update(MenuRequestDTO requestDTO, Long menuId) {
+        MenuModel menu = menuRepository.findById(menuId)
+                .orElseThrow(() -> new RuntimeException("Menu not found: " + menuId));
+        menu.setId(requestDTO.getMenuId());
+        menu.setName(requestDTO.getName());
+        menu.setPrice(requestDTO.getPrice());
+        menu.setCategory(requestDTO.getCategory());
+        menu.setDescription(requestDTO.getDescription());
+        menu.setStatus(requestDTO.getStatus());
+        menu = menuRepository.save(menu);
+        return  new MenuResponseDTO(menu.getId(),menu.getName(),menu.getDescription(),
+                menu.getCategory(),menu.getPrice(), menu.getStatus(),"");
+
     }
 }

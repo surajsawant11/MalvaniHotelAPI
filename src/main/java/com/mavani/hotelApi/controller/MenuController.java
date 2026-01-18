@@ -33,6 +33,12 @@ public class MenuController {
         return  ResponseEntity.ok().body(menuResponseDTO);
     }
 
+    @PutMapping("/{menuId}")
+    public ResponseEntity<?> update(@RequestBody MenuRequestDTO menuRequestDTO, @PathVariable Long menuId){
+        MenuResponseDTO menuResponseDTO = menuService.update(menuRequestDTO, menuId);
+        return  ResponseEntity.ok().body(menuResponseDTO);
+    }
+
     @GetMapping("/{menuId}")
     public ResponseEntity<?> findById (@PathVariable Long menuId){
         MenuRequestDTO requestDTO = new MenuRequestDTO();

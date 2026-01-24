@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
         user.setPhone(requestDTO.getPhone());
         user.setPassword(requestDTO.getPassword());
 
-        user = userRepository.save(user);
+//        user = userRepository.save(user);
 
 
 //        com.mavani.hotelApi.dto.UserResponseDTO
@@ -64,5 +65,40 @@ public class UserServiceImpl implements UserService {
 
 
         return userResponseDTO;
+    }
+
+    @Override
+    public UserResponseDTO update(Long userId , UserRequestDTO requestDTO) {
+        UserResponseDTO responseDTO = null;
+        Optional<UserModel> optionalUserModel = userRepository.findById(userId);
+        if(optionalUserModel.isPresent()) {
+            UserModel userModel = optionalUserModel.get();
+            userModel.setName(requestDTO.getName());
+            userModel.setRole(requestDTO.getRole());
+            userModel.setPhone(requestDTO.getPhone());
+            userModel.setEmail(requestDTO.getEmail());
+            userModel = userRepository.save(userModel);
+            responseDTO = new UserResponseDTO(userModel.getId(),userModel.getName(),userModel.getPhone(),
+                    userModel.getEmail(), userModel.getRole(),userModel.getUpdatedDt(), userModel.getCreatedDt(), userModel.getCreatedBy().getName(), userModel.getUpdatedBy().getName());
+        }
+        return responseDTO;
+    }
+
+    @Override
+    public UserResponseDTO findById(Long userId) {
+        UserResponseDTO responseDTO = null;
+        Optional<UserModel> optionalUserModel = userRepository.findById(userId);
+        if(optionalUserModel.isPresent()){
+            UserModel userModel = optionalUserModel.get();
+            responseDTO = new UserResponseDTO(userModel.getId(),userModel.getName(),userModel.getPhone(),
+                    userModel.getEmail(), userModel.getRole(),userModel.getUpdatedDt(), userModel.getCreatedDt(), userModel.getCreatedBy().getName(), userModel.getUpdatedBy().getName());
+        }
+        return responseDTO;
+    }
+
+    @Override
+    public String deleteById(Long menuId) {
+        userRepository.deleteById(menuId);
+        return "User Is Delete Successfully" ;
     }
 }

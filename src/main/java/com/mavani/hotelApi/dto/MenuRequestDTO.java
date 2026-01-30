@@ -1,5 +1,7 @@
 package com.mavani.hotelApi.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class MenuRequestDTO {
     private Long menuId;
     private String name;
@@ -7,6 +9,7 @@ public class MenuRequestDTO {
     private String description;
     private Double price;
     private String status;
+    private MultipartFile image;
 
     public String getName() {
         return name;
@@ -54,5 +57,13 @@ public class MenuRequestDTO {
 
     public void setMenuId(Long menuId) {
         this.menuId = menuId;
+    }
+
+    public MultipartFile getImage() {
+        return image;
+    }
+
+    public void setImage(MultipartFile image) {
+        this.image = image;
     }
 }

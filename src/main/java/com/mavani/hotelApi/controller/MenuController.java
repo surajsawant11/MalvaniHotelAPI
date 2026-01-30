@@ -3,22 +3,26 @@ package com.mavani.hotelApi.controller;
 import com.mavani.hotelApi.dto.MenuRequestDTO;
 import com.mavani.hotelApi.dto.MenuResponseDTO;
 import com.mavani.hotelApi.dto.RegisterResponseDTO;
+import com.mavani.hotelApi.service.ImageService;
 import com.mavani.hotelApi.service.MenuService;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+
+@AllArgsConstructor
 @RestController
 @RequestMapping("/menu")
 public class MenuController {
 
-    MenuService menuService;
-    public MenuController(MenuService menuService){
-        this.menuService = menuService;
-    }
+    final MenuService menuService;
+    final ImageService imageService;
+
 
     @GetMapping
     public ResponseEntity<?> find (){
@@ -33,11 +37,27 @@ public class MenuController {
         return  ResponseEntity.ok().body(menuResponseDTO);
     }
 
-    @PutMapping("/{menuId}")
-    public ResponseEntity<?> update(@RequestBody MenuRequestDTO menuRequestDTO, @PathVariable Long menuId){
-        MenuResponseDTO menuResponseDTO = menuService.update(menuRequestDTO, menuId);
-        return  ResponseEntity.ok().body(menuResponseDTO);
+    @PutMapping(value = "/{menuId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<MenuResponseDTO> update(
+            @ModelAttribute MenuRequestDTO dto,
+            @PathVariable Long menuId) {
+
+        MenuResponseDTO response = menuService.update(dto, menuId);
+
+        if (dto.getImage() != null && !dto.getImage().isEmpty()) {
+
+            boolean uploaded = imageService.uploadImage("MENU", dto.getImage(), menuId);
+
+            if (uploaded) {
+                response.setMessage(response.getMessage() + " Image uploaded successfully.");
+            } else {
+                response.setMessage(response.getMessage() + " Image upload failed.");
+            }
+        }
+
+        return ResponseEntity.ok(response);
     }
+
 
     @GetMapping("/{menuId}")
     public ResponseEntity<?> findById (@PathVariable Long menuId){

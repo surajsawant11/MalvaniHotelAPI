@@ -28,7 +28,7 @@ public class ImageController {
             return ResponseEntity.ok() .contentType(MediaType.IMAGE_JPEG).body(image);
         } catch (Exception e) {
             try {
-                byte[] defaultImage = Files.readAllBytes( Paths.get("images/default.png"));
+                byte[] defaultImage = Files.readAllBytes( Paths.get("images/default.jpg"));
                 return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(defaultImage);
             } catch (IOException io) {
                 return ResponseEntity.internalServerError().build();

@@ -29,7 +29,7 @@ public class ImageServiceImpl implements ImageService {
 
 //            Path path = Paths.get(basePath, imgType.name(), imgId + ".jpg");
             Path path = findImagePath(basePath, imgType, imgId);
-            if (!Files.exists(path)) {
+            if (path == null ||!Files.exists(path)) {
                 path = Paths.get(basePath, "default.jpg");
             }
 

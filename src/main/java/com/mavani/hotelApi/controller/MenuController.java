@@ -31,10 +31,21 @@ public class MenuController {
         return ResponseEntity.ok(responseDTOList);
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody MenuRequestDTO menuRequestDTO){
-        MenuResponseDTO menuResponseDTO = menuService.save(menuRequestDTO);
-        return  ResponseEntity.ok().body(menuResponseDTO);
+    @PostMapping(path = "/save",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> save(@ModelAttribute MenuRequestDTO dto){
+        MenuResponseDTO response = menuService.save(dto);
+
+        if (dto.getImage() != null && !dto.getImage().isEmpty()) {
+
+            boolean uploaded = imageService.uploadImage("MENU", dto.getImage(), response.getMenuId());
+
+            if (uploaded) {
+                response.setMessage(response.getMessage() + " Image uploaded successfully.");
+            } else {
+                response.setMessage(response.getMessage() + " Image upload failed.");
+            }
+        }
+        return  ResponseEntity.ok().body(response);
     }
 
     @PutMapping(value = "/{menuId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

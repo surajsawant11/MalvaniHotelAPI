@@ -21,11 +21,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponseDTO> find(UserRequestDTO requestDTO) {
+    public List<UserResponseDTO> findAll(UserRequestDTO requestDTO) {
         List<UserModel> userModelList =  userRepository.findAll();
         List<UserResponseDTO> responseDTOList = new ArrayList<>();
         userModelList.forEach(a->{
-            responseDTOList.add(new UserResponseDTO(a.getId(),a.getName(),a.getPhone(),a.getEmail(),a.getRole(),a.getUpdatedDt(),a.getCreatedDt(),a.getCreatedBy().getName(),a.getUpdatedBy().getName()));
+            responseDTOList.add(new UserResponseDTO(a.getId(),a.getName(),a.getPhone(),a.getEmail(),a.getRole(),a.getUpdatedDt(),a.getCreatedDt(),a.getCreatedBy().getName(),a.getUpdatedBy().getName(),"http://localhost:8080/malvanihotel/img/get/PROFILE/500/"+a.getId(), "All Record Find Successfully"));
         });
         return responseDTOList;
     }
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 //                String updatedBy
 //        )
         UserResponseDTO userResponseDTO = new UserResponseDTO(user.getId(), user.getName(), user.getPhone(), user.getEmail(), user.getRole(),
-                user.getUpdatedDt(), user.getCreatedDt(), user.getCreatedBy().getName(),user.getUpdatedBy().getName());
+                user.getUpdatedDt(), user.getCreatedDt(), user.getCreatedBy().getName(),user.getUpdatedBy().getName(),"http://localhost:8080/malvanihotel/img/get/PROFILE/500/"+user.getId(),"User Save Successfully");
 
 
 
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
             userModel.setEmail(requestDTO.getEmail());
             userModel = userRepository.save(userModel);
             responseDTO = new UserResponseDTO(userModel.getId(),userModel.getName(),userModel.getPhone(),
-                    userModel.getEmail(), userModel.getRole(),userModel.getUpdatedDt(), userModel.getCreatedDt(), userModel.getCreatedBy().getName(), userModel.getUpdatedBy().getName());
+                    userModel.getEmail(), userModel.getRole(),userModel.getUpdatedDt(), userModel.getCreatedDt(), userModel.getCreatedBy().getName(), userModel.getUpdatedBy().getName(),"http://localhost:8080/malvanihotel/img/get/PROFILE/500/"+userModel.getId(),"User Update Successfully");
         }
         return responseDTO;
     }
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
         if(optionalUserModel.isPresent()){
             UserModel userModel = optionalUserModel.get();
             responseDTO = new UserResponseDTO(userModel.getId(),userModel.getName(),userModel.getPhone(),
-                    userModel.getEmail(), userModel.getRole(),userModel.getUpdatedDt(), userModel.getCreatedDt(), userModel.getCreatedBy().getName(), userModel.getUpdatedBy().getName());
+                    userModel.getEmail(), userModel.getRole(),userModel.getUpdatedDt(), userModel.getCreatedDt(), userModel.getCreatedBy().getName(), userModel.getUpdatedBy().getName(),"http://localhost:8080/malvanihotel/img/get/PROFILE/500/"+userModel.getId(), "Record Find Successfully");
         }
         return responseDTO;
     }

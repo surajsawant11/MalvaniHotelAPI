@@ -26,7 +26,7 @@ public class MenuServiceImpl implements MenuService {
         List<MenuResponseDTO> responseDTOList = new ArrayList<>();
        List<MenuModel> modelList = menuRepository.findAll();
         modelList.forEach(menu->{
-            responseDTOList.add(new MenuResponseDTO(menu.getId(),menu.getName(),menu.getDescription(),menu.getCategory(),menu.getPrice(), menu.getStatus(),"","http://localhost:8080/malvanihotel/img/get/MENU/500/"+menu.getId().toString()));
+            responseDTOList.add(new MenuResponseDTO(menu.getId(),menu.getName(),menu.getDescription(),menu.getCategory(),menu.getPrice(), "find all record successfully",menu.getStatus(),"http://localhost:8080/malvanihotel/img/get/MENU/500/"+menu.getId().toString()));
         });
         return responseDTOList;
     }
@@ -46,7 +46,7 @@ public class MenuServiceImpl implements MenuService {
 
 //        MenuResponseDTO menuResponseDTO =
         return new MenuResponseDTO(menu.getId(),menu.getName(),menu.getDescription(),
-                menu.getCategory(),menu.getPrice(), menu.getStatus(),"","http://localhost:8080/malvanihotel/img/get/MENU/500/");
+                menu.getCategory(),menu.getPrice(),"Menu Save successfully",menu.getStatus(),"http://localhost:8080/malvanihotel/img/get/MENU/500/");
 
     }
 
@@ -61,7 +61,7 @@ public class MenuServiceImpl implements MenuService {
         Optional<MenuModel> menuModel = menuRepository.findById(menuId);
         MenuResponseDTO responseDTO = null;
         if(menuModel.isPresent()){
-            responseDTO = new MenuResponseDTO(menuModel.get().getId(),menuModel.get().getName(),menuModel.get().getDescription(),menuModel.get().getCategory(),menuModel.get().getPrice(), menuModel.get().getStatus(),null,"http://localhost:8080/malvanihotel/img/get/MENU/500/");
+            responseDTO = new MenuResponseDTO(menuModel.get().getId(),menuModel.get().getName(),menuModel.get().getDescription(),menuModel.get().getCategory(),menuModel.get().getPrice(),"record find successfully", menuModel.get().getStatus(),"http://localhost:8080/malvanihotel/img/get/MENU/500/"+menuModel.get().getId());
         }else {
             throw new ValidationException("Menu Not Found");
         }
@@ -82,7 +82,7 @@ public class MenuServiceImpl implements MenuService {
         menu = menuRepository.save(menu);
 
         return  new MenuResponseDTO(menu.getId(),menu.getName(),menu.getDescription(),
-                menu.getCategory(),menu.getPrice(), menu.getStatus(),"","http://localhost:8080/malvanihotel/img/get/MENU/500/");
+                menu.getCategory(),menu.getPrice(), "Menu Save Successfully",menu.getStatus(),"http://localhost:8080/malvanihotel/img/get/MENU/500/");
 
     }
 

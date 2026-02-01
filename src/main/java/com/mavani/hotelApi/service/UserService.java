@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserService {
 
-    public List<UserResponseDTO> find(UserRequestDTO requestDTO);
+    public List<UserResponseDTO> findAll(UserRequestDTO requestDTO);
 
     UserResponseDTO save(UserRequestDTO requestDTO);
 

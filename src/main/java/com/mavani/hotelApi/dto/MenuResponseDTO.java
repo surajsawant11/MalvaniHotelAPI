@@ -14,7 +14,7 @@ public class MenuResponseDTO {
     private Double price;
     private String message;
     private String status;
-    private String imageUrl;
+    private String imageUrl ;
 
 
 

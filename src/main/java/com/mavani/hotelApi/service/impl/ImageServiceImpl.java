@@ -76,6 +76,9 @@ public class ImageServiceImpl implements ImageService {
                 case "MENU":
                     folderPath = basePath + File.separator + "MENU";
                     break;
+                case "PROFILE":
+                    folderPath = basePath + File.separator + "PROFILE";
+                    break;
 
                 default:
                     folderPath = basePath + File.separator + "DEFAULT";
